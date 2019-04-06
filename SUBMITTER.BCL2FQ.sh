@@ -47,6 +47,6 @@ BCL_2_FASTQ_ALL
 printf "$RUN_FOLDER\nhas finished submitting at\n`date`\nby `whoami`" \
 	| mail -s "SUBMITTER.BCL2FQ.sh submitted" \
 	-r bcraig2@jhmi.edu \
-	bcraig2@jhmi.edu \
+	cidr_sequencing_notifications@lists.johnshopkins.edu \
 
 ## END Script
