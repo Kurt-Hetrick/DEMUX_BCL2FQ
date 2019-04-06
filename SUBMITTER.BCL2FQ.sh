@@ -33,6 +33,8 @@ BCL_2_FASTQ_ALL() {
 		-q $QUEUE_SELECT \
 		-o $NOVASEQ_PATH$RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
 		-e $NOVASEQ_PATH$RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
+		-m e \
+		-M cidr_sequencing_notifications@lists.johnshopkins.edu \
 		$SCRIPTS_DIR$JOBNAME_PREFIX.sh \
 		$RUN_FOLDER $SAMPLE_SHEET
 
@@ -41,5 +43,10 @@ BCL_2_FASTQ_ALL() {
 ## EXECUTION: MAKE DIRS. RUN BCL2FQ reserving all the space
 MAKE_DIRS_TREE
 BCL_2_FASTQ_ALL
+
+printf "$RUN_FOLDER\nhas finished submitting at\n`date`\nby `whoami`" \
+	| mail -s "SUBMITTER.BCL2FQ.sh submitted" \
+	-r bcraig2@jhmi.edu \
+	bcraig2@jhmi.edu \
 
 ## END Script
