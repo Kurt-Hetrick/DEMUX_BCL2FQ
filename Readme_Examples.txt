@@ -1,4 +1,3 @@
-test
 # NOTES:
 Use of this submission code assumes that you are reserving all slots for the choosen servers in a queue.
 uses bcl2fastq version 2.20.0.422
