@@ -5,7 +5,7 @@
 - A submission script is used to format for submission to an HPC cluster
   - Assumes that you are reserving all slots for the choosen servers in a queue
   - An email will be sent to the notifications alias when submission occurs and once the qsub process completes
-- Execution must occur on one of the HPC headnodes
+- Execution must occur on one of the HPC submit nodes
 
 # Command Line Arguments
 - The submitter script currently accepts 2 command line arguments in the following order
