@@ -22,7 +22,7 @@ SUBMIT_STAMP=`date '+%s'`
         | cut -d @ -f 1 \
         | sort \
         | uniq \
-        | egrep -v "all.q|cgc.q|programmers.q|bina.q|qtest.q" \
+        | egrep -v "all.q|cgc.q|programmers.q|bina.q|qtest.q|bigmem.q" \
         | datamash collapse 1 \
         | awk '{print $1}'`
 
