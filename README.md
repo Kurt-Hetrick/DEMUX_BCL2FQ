@@ -3,7 +3,7 @@
 - bcl2fastq's thread management is currently set to 10 read/write threads and a calculated value for processing threads
   - Currently (nproc -5)
 - A submission script is used to format for submission to an HPC cluster
-  - Assumes that you are reserving all slots for the choosen servers in a queue
+  - All resources will be reserved for the submission.
   - An email will be sent to the notifications alias when submission occurs and once the qsub process completes
 - Execution must occur on one of the HPC submit nodes
 
