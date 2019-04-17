@@ -5,14 +5,12 @@ module load sge gcc/7.2.0
 
 
 ## User defined command line arguments
-RUN_FOLDER=$1
+## e.g., /mnt/instrument_files/novaseq/190229_A12345_0001_AHXDDHHD
+FULL_PATH_TO_RUN_FOLDER=$1
 SAMPLE_SHEET=$2
-# QUEUE_SELECT=$3
-# SLOTS=$4
 
 ## Hard-coded paths...change if the script or output core path change
 SCRIPTS_DIR=/mnt/research/tools/LINUX/DEMUX_BCL2FQ/
-NOVASEQ_PATH=/mnt/instrument_files/novaseq/
 SUBMIT_STAMP=`date '+%s'`
 
 # generate a list of queues to submit to
@@ -29,8 +27,8 @@ SUBMIT_STAMP=`date '+%s'`
 ## Assumes that the output from bcl2fastq is going into a directory called FASTQ within the run folder
 ## Functio to make the FASTQ and a LOGS directory if they do not exist yet.
 MAKE_DIRS_TREE() {
-	mkdir -p $NOVASEQ_PATH$RUN_FOLDER/FASTQ \
-	$NOVASEQ_PATH$RUN_FOLDER/FASTQ/LOGS/
+	mkdir -p $FULL_PATH_TO_RUN_FOLDER/FASTQ \
+	$FULL_PATH_TO_RUN_FOLDER/FASTQ/LOGS/
 }
 
 ## Function to qsub the job
@@ -43,12 +41,12 @@ BCL_2_FASTQ_ALL() {
 		-R y \
 		-p -8 \
 		-q $QUEUE_LIST \
-		-o $NOVASEQ_PATH$RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
-		-e $NOVASEQ_PATH$RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
+		-o $FULL_PATH_TO_RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
+		-e $FULL_PATH_TO_RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
 		-m e \
 		-M cidr_sequencing_notifications@lists.johnshopkins.edu \
 		$SCRIPTS_DIR$JOBNAME_PREFIX.sh \
-		$RUN_FOLDER $SAMPLE_SHEET
+		$FULL_PATH_TO_RUN_FOLDER $SAMPLE_SHEET
 
 }
 
@@ -56,7 +54,7 @@ BCL_2_FASTQ_ALL() {
 MAKE_DIRS_TREE
 BCL_2_FASTQ_ALL
 
-printf "$RUN_FOLDER\nhas finished submitting at\n`date`\nby `whoami`\n$SAMPLE_SHEET" \
+printf "$FULL_PATH_TO_RUN_FOLDER\nhas finished submitting at\n`date`\nby `whoami`\n$SAMPLE_SHEET" \
 	| mail -s "SUBMITTER.BCL2FQ.sh submitted" \
 	-r bcraig2@jhmi.edu \
 	cidr_sequencing_notifications@lists.johnshopkins.edu \

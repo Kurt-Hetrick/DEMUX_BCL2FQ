@@ -25,11 +25,8 @@ set
 
 echo
 
-## Standard path for the novaseq data files
-NOVASEQ_PATH=/mnt/instrument_files/novaseq/
-
-## Just the run folder name e.g., 190114_A00527_0033_BH3WNYDRXX
-RUN_FOLDER=$1
+## Full path to the run folder including name e.g., /mnt/instrument_files/novaseq/190114_A00527_0033_BH3WNYDRXX
+FULL_PATH_TO_RUN_FOLDER=$1
 
 ## Full path to the sample sheet. Allows to define alternate sample sheet locations.
 SAMPLE_SHEET=$2
@@ -44,8 +41,8 @@ THREADS="$(expr $NUM_PROC - 5)"
 ## and calculated threads for processing. Read and writes are set to 10 each since these are simple.
 ## Also user guide suggests keeping these lower to avoid issues with I/O performance.
 
-bcl2fastq --runfolder-dir $NOVASEQ_PATH$RUN_FOLDER \
---output-dir $NOVASEQ_PATH$RUN_FOLDER"/FASTQ" \
+bcl2fastq --runfolder-dir $FULL_PATH_TO_RUN_FOLDER \
+--output-dir $FULL_PATH_TO_RUN_FOLDER"/FASTQ" \
 --sample-sheet=$SAMPLE_SHEET \
 --loading-threads 10 \
 --processing-threads $THREADS \
