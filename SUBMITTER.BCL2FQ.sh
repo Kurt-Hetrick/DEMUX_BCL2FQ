@@ -16,11 +16,11 @@ SUBMIT_STAMP=`date '+%s'`
 # generate a list of queues to submit to
 
     QUEUE_LIST=`qstat -f -s r \
-        | egrep -v "^[0-9]|^-|^queue" \
+        | egrep -v "^[0-9]|^-|^queue|^ " \
         | cut -d @ -f 1 \
         | sort \
         | uniq \
-        | egrep -v "all.q|cgc.q|programmers.q|bina.q|qtest.q|bigmem.q" \
+        | egrep -v "all.q|cgc.q|programmers.q|bina.q|qtest.q|bigmem.q|lemon.q|prod.q" \
         | datamash collapse 1 \
         | awk '{print $1}'`
 
