@@ -13,6 +13,10 @@ SAMPLE_SHEET=$2
 SCRIPTS_DIR=/mnt/research/tools/LINUX/DEMUX_BCL2FQ/
 SUBMIT_STAMP=`date '+%s'`
 
+# grab email addy
+
+	SEND_TO=`cat $SCRIPTS_DIR/email_lists.txt`
+
 # generate a list of queues to submit to
 
     QUEUE_LIST=`qstat -f -s r \
@@ -44,7 +48,7 @@ BCL_2_FASTQ_ALL() {
 		-o $FULL_PATH_TO_RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
 		-e $FULL_PATH_TO_RUN_FOLDER"/FASTQ/LOGS/"$JOBNAME_PREFIX"_"$SUBMIT_STAMP".log" \
 		-m e \
-		-M cidr_sequencing_notifications@lists.johnshopkins.edu \
+		-M $SEND_TO \
 		$SCRIPTS_DIR$JOBNAME_PREFIX.sh \
 		$FULL_PATH_TO_RUN_FOLDER $SAMPLE_SHEET
 
@@ -56,7 +60,6 @@ BCL_2_FASTQ_ALL
 
 printf "$FULL_PATH_TO_RUN_FOLDER\nhas finished submitting at\n`date`\nby `whoami`\n$SAMPLE_SHEET" \
 	| mail -s "SUBMITTER.BCL2FQ.sh submitted" \
-	-r bcraig2@jhmi.edu \
-	cidr_sequencing_notifications@lists.johnshopkins.edu \
+	$SEND_TO \
 
 ## END Script
