@@ -17,6 +17,11 @@ SUBMIT_STAMP=`date '+%s'`
 
 	SEND_TO=`cat $SCRIPTS_DIR/email_lists.txt`
 
+# grab users full name
+
+	SUBMITTER_ID=`whoami`
+	PERSON_NAME=`getent passwd | awk 'BEGIN {FS=":"} $1=="'$SUBMITTER_ID'" {print $5}'`
+
 # generate a list of queues to submit to
 
     QUEUE_LIST=`qstat -f -s r \
@@ -29,11 +34,11 @@ SUBMIT_STAMP=`date '+%s'`
         | awk '{print $1}'`
 
 ## Assumes that the output from bcl2fastq is going into a directory called FASTQ within the run folder
-## Functio to make the FASTQ and a LOGS directory if they do not exist yet.
-MAKE_DIRS_TREE() {
-	mkdir -p $FULL_PATH_TO_RUN_FOLDER/FASTQ \
-	$FULL_PATH_TO_RUN_FOLDER/FASTQ/LOGS/
-}
+## Function to make the FASTQ and a LOGS directory if they do not exist yet.
+	MAKE_DIRS_TREE() {
+		mkdir -p $FULL_PATH_TO_RUN_FOLDER/FASTQ \
+		$FULL_PATH_TO_RUN_FOLDER/FASTQ/LOGS/
+	}
 
 ## Function to qsub the job
 BCL_2_FASTQ_ALL() {
@@ -59,7 +64,7 @@ MAKE_DIRS_TREE
 BCL_2_FASTQ_ALL
 
 printf "$FULL_PATH_TO_RUN_FOLDER\nhas finished submitting at\n`date`\nby `whoami`\n$SAMPLE_SHEET" \
-	| mail -s "SUBMITTER.BCL2FQ.sh submitted" \
+	| mail -s "$PERSON_NAME has submitted SUBMITTER.BCL2FQ.sh" \
 	$SEND_TO \
 
 ## END Script
