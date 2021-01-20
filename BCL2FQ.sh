@@ -47,3 +47,8 @@ bcl2fastq --runfolder-dir $FULL_PATH_TO_RUN_FOLDER \
 --loading-threads 10 \
 --processing-threads $THREADS \
 --writing-threads 10 \
+
+wait 30s
+
+find $FULL_PATH_TO_RUN_FOLDER -type f -iname "Undetermined_S0*_001.fastq.gz" -print0 | xargs -0 ls -1 | awk '{print "rm -Rfv " $0}' | bash
+
